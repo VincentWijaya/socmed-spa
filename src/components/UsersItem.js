@@ -2,18 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const viewAlbum = (props, userId) => {
-  console.log('FIND ALBUM BY USER ID', userId);
+  props.resetLoader();
+  props.history.push(`/album/${userId}`, props.item)
 };
 
 const UsersItem = (props) => {
-  const { item } = props;
+  const { item: user } = props;
   return (
     <tr>
-      <td>{item.name}</td>
-      <td>{item.email}</td>
-      <td>{item.website}</td>
+      <td>{user.name}</td>
+      <td>{user.email}</td>
+      <td>{user.website}</td>
       <td>
-        <button className="btn btn-ligth" title="View" data-toggle="tooltip" onClick={() => viewAlbum(props, item.id)}>
+        <button className="btn btn-ligth" title="View User Album" data-toggle="tooltip" onClick={() => viewAlbum(props, user.id)}>
           <i className="fas fa-eye"></i>
         </button>
       </td>
@@ -21,20 +22,12 @@ const UsersItem = (props) => {
   )
 };
 
-// const mapStateToProps = (state, ownProps) => {
-//   return {
-//     albumList: state.fetchApi
-//   }
-// };
+const mapDispatchToProps = () => (dispatch, ownProps) => {
+  return {
+    resetLoader: () => {
+      dispatch({ type: 'RESET_LOADER' })
+    }
+  }
+}
 
-// const mapDispatchToProps = (dispatch, ownProps) => {
-//   return {
-//     getUsers: () => {
-//       dispatch(())
-//     }
-//   }
-// }
-
-// export default connect(mapStateToProps, null)(UsersItem);
-
-export default UsersItem;
+export default connect(mapDispatchToProps, null)(UsersItem);

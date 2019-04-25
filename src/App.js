@@ -5,9 +5,10 @@ import './App.css';
 
 import store from './store'
 
-import Home from "./containers/Home";
-import NotFound from "./containers/404";
-import Users from "./containers/Users";
+import Home from './containers/Home';
+import NotFound from './containers/404';
+import Users from './containers/Users';
+import Album from './containers/Album.js';
 
 function App() {
   return (
@@ -16,9 +17,10 @@ function App() {
         <Router>
           <div>
             <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/users" component={Users} />
-              <Route component={NotFound} />
+              <Route exact path="/" component={ Home } />
+              <Route path="/users" component={ Users } />
+              <Route path="/album/:userId" component={ Album } />
+              <Route component={ NotFound } />
             </Switch>
           </div>
         </Router>

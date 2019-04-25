@@ -2,16 +2,18 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux';
 
 import Navbar from '../components/Navbar'
-import UsersItem from '../components/UsersItem';
+import AlbumItem from '../components/AlbumItem';
 
-import getUsersAction from '../store/fetchApi/getUsers';
+import getAlbumsAction from '../store/fetchApi/getAlbums';
 
-class Users extends Component {
+class Album extends Component {
   componentDidMount() {
-    this.props.getUsers();
+    this.props.getAlbums();
   }
 
   render() {
+    const { name, id: userId } = this.props.location.state;
+
     const loading = () => {
       return (
         <div>
@@ -24,11 +26,14 @@ class Users extends Component {
       )
     };
 
-    const users = () => {
-      const item = this.props.usersList.users.map((datum, index) => {
-        return (
-          <UsersItem item={datum} key={index} {...this.props} />
-        )
+    const albums = () => {
+      const item = this.props.albumsList.albums.map((datum, index) => {
+        if (Number(userId) === datum.userId) {
+          return (
+            <AlbumItem item={datum} key={index} {...this.props} />
+          )
+        }
+        return null;
       });
 
       return (
@@ -36,20 +41,17 @@ class Users extends Component {
           <div className="container">
             <div className="row mt-5 pt-3">
               <div className="col-lg-12 text-center">
-                <h1> List of User </h1>
+                <h1> List of Album {name} </h1>
                 <table className="table table-hover">
 
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Website</th>
-                      <th>Action</th>
+                      <th>Title</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    { item }
+                    {item}
                   </tbody>
 
                 </table>
@@ -63,7 +65,7 @@ class Users extends Component {
     return (
       <Fragment>
         <Navbar />
-        { this.props.usersList.isLoaded ? users() : loading() }
+        {this.props.albumsList.isLoaded ? albums() : loading()}
       </Fragment>
     )
   }
@@ -71,16 +73,19 @@ class Users extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    usersList: state.fetchApi
+    albumsList: state.fetchApi
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getUsers: () => {
-      dispatch(getUsersAction())
+    getAlbums: () => {
+      dispatch(getAlbumsAction())
+    },
+    resetLoader: () => {
+      dispatch({ type: 'RESET_LOADER' })
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Users)
+export default connect(mapStateToProps, mapDispatchToProps)(Album)
