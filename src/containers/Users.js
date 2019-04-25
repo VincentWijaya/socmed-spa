@@ -1,28 +1,19 @@
 import React, { Component, Fragment } from 'react'
-import axios from "axios";
+import axios from 'axios';
+import { connect } from 'react-redux';
+
 import Navbar from '../components/Navbar'
+import getUsersAction from '../store/fetchApi/getUsers';
 
-const fetchUsers = async () => {
-  const { data: users } = await axios.get("https://jsonplaceholder.typicode.com/users");
-  return users
-};
-
-export default class User extends Component {
-  state = {
-    users: [],
-    isLoaded: false,
-  }
-
-  async componentDidMount() {
-    const result = await fetchUsers();
-    this.setState({ users: result, isLoaded: true });
+class User extends Component {
+  componentDidMount() {
+    this.props.getUsers();
   }
 
   render() {
     const loading = () => {
       return (
         <div>
-          <Navbar />
           <div className="mt-5">
             <Fragment>
               <div className="pt-5"> <div className="loader"></div> </div>
@@ -35,10 +26,9 @@ export default class User extends Component {
     const users = () => {
       return (
         <section>
-          <Navbar />
            <div className="mt-5">
             <Fragment>
-              <h1 className="pt-5 text-center">Users List</h1>
+              <h1 className="pt-5 text-center">{ JSON.stringify(this.props.usersList) }</h1>
             </Fragment>
            </div>
         </section>
@@ -47,8 +37,25 @@ export default class User extends Component {
 
     return (
       <Fragment>
-        { this.state.isLoaded ? users() : loading() }
+        <Navbar />=
+        { this.props.usersList.isLoaded ? users() : loading() }
       </Fragment>
     )
   }
 };
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    usersList: state.fetchApi
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    getUsers: () => {
+      dispatch(getUsersAction())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(User)

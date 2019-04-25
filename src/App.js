@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import axios from "axios";
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import './App.css';
+
+import store from './store'
 
 import Home from "./containers/Home";
 import NotFound from "./containers/404";
@@ -10,15 +12,17 @@ import Users from "./containers/Users";
 function App() {
   return (
     <div className="App">
-      <Router>
-        <div>
-          <Switch>
-            <Route exact path="/" component={ Home } />
-            <Route path="/users" component={ Users } />
-            <Route component={ NotFound } />
-          </Switch>
-        </div>
-      </Router>
+      <Provider store={ store }>
+        <Router>
+          <div>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/users" component={Users} />
+              <Route component={NotFound} />
+            </Switch>
+          </div>
+        </Router>
+      </Provider>
     </div>
   );
 }
