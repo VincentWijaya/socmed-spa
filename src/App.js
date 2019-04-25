@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import axios from "axios";
 import './App.css';
 
 import Home from "./containers/Home";
