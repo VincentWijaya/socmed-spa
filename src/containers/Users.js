@@ -3,11 +3,13 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 import Navbar from '../components/Navbar'
+import UsersItem from '../components/UsersItem';
+
 import getUsersAction from '../store/fetchApi/getUsers';
 
 class User extends Component {
   componentDidMount() {
-    this.props.getUsers();
+    this.props.getUsers()
   }
 
   render() {
@@ -24,13 +26,37 @@ class User extends Component {
     };
 
     const users = () => {
+      const item = this.props.usersList.users.map((datum, index) => {
+        return (
+          <UsersItem item={datum} key={index} {...this.props} />
+        )
+      });
+
       return (
-        <section>
-           <div className="mt-5">
-            <Fragment>
-              <h1 className="pt-5 text-center">{ JSON.stringify(this.props.usersList) }</h1>
-            </Fragment>
-           </div>
+        <section className="bg-white content-section">
+          <div className="container">
+            <div className="row mt-5 pt-3">
+              <div className="col-lg-12 text-center">
+                <h1> List of User </h1>
+                <table className="table table-hover">
+
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Website</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    { item }
+                  </tbody>
+
+                </table>
+              </div>
+            </div>
+          </div>
         </section>
       )
     };
