@@ -17,7 +17,9 @@ export default function () {
       .then(({ data }) => {
         dispatch({
           type: REQUEST_ALBUMS_SUCCESS,
-          payload: data
+          payload: {
+            albums: data,
+          },
         })
       })
       .catch(err => {

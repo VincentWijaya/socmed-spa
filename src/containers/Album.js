@@ -5,14 +5,21 @@ import Navbar from '../components/Navbar'
 import AlbumItem from '../components/AlbumItem';
 
 import getAlbumsAction from '../store/fetchApi/getAlbums';
+import getUsersAction from '../store/fetchApi/getUsers';
 
 class Album extends Component {
   componentDidMount() {
-    this.props.getAlbums();
+    if (!this.props.albumsList.data) {
+      this.props.getAlbums();
+    }
+
+    if (!this.props.usersList.data) {
+      this.props.getUsers();
+    }
   }
 
   render() {
-    const { name, id: userId } = this.props.location.state;
+    const { id: userId, name } = this.props.location.state;
 
     const loading = () => {
       return (
@@ -27,7 +34,7 @@ class Album extends Component {
     };
 
     const albums = () => {
-      const item = this.props.albumsList.albums.map((datum, index) => {
+      const item = this.props.albumsList.data.map((datum, index) => {
         if (Number(userId) === datum.userId) {
           return (
             <AlbumItem item={datum} key={index} {...this.props} />
@@ -41,7 +48,7 @@ class Album extends Component {
           <div className="container">
             <div className="row mt-5 pt-3">
               <div className="col-lg-12 text-center">
-                <h1> List of Album {name} </h1>
+                <h1> Album of {name} </h1>
                 <table className="table table-hover">
 
                   <thead>
@@ -73,7 +80,8 @@ class Album extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    albumsList: state.fetchApi
+    albumsList: state.fetchApi.albums,
+    usersList: state.fetchApi.users
   }
 }
 
@@ -82,8 +90,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getAlbums: () => {
       dispatch(getAlbumsAction())
     },
-    resetLoader: () => {
-      dispatch({ type: 'RESET_LOADER' })
+    getUsers: () => {
+      dispatch(getUsersAction())
     }
   }
 }

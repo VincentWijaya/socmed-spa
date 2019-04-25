@@ -25,7 +25,7 @@ class Users extends Component {
     };
 
     const users = () => {
-      const item = this.props.usersList.users.map((datum, index) => {
+      const item = this.props.usersList.data.map((datum, index) => {
         return (
           <UsersItem item={datum} key={index} {...this.props} />
         )
@@ -71,7 +71,7 @@ class Users extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    usersList: state.fetchApi
+    usersList: state.fetchApi.users
   }
 }
 

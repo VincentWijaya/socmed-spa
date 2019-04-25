@@ -17,7 +17,9 @@ export default function() {
       .then(({ data }) => {
         dispatch({
           type: REQUEST_USERS_SUCCESS,
-          payload: data
+          payload: {
+            users: data,
+          },
         })
       })
       .catch(err => {
