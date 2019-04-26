@@ -8,7 +8,9 @@ import store from './store'
 import Home from './containers/Home';
 import NotFound from './containers/404';
 import Users from './containers/Users';
-import Album from './containers/Album.js';
+import UserAlbums from './containers/UserAlbums';
+import UserPosts from './containers/UserPosts';
+import PostDetail from './containers/PostDetail';
 
 function App() {
   return (
@@ -19,7 +21,9 @@ function App() {
             <Switch>
               <Route exact path="/" component={ Home } />
               <Route path="/users" component={ Users } />
-              <Route path="/album/:userId" component={ Album } />
+              <Route path="/album/:userId" component={ UserAlbums } />
+              <Route path="/post/:userId" component={ UserPosts } />
+              <Route path="/post/detail/:postId" component={ PostDetail } />
               <Route component={ NotFound } />
             </Switch>
           </div>

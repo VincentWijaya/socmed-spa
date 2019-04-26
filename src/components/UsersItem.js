@@ -4,6 +4,10 @@ const viewAlbum = (props, userId) => {
   props.history.push(`/album/${userId}`)
 };
 
+const viewPost = (props, userId) => {
+  props.history.push(`/post/${userId}`)
+}
+
 const UsersItem = (props) => {
   const { item: user } = props;
   return (
@@ -13,7 +17,11 @@ const UsersItem = (props) => {
       <td>{user.website}</td>
       <td>
         <button className="btn btn-ligth" title="View User Album" data-toggle="tooltip" onClick={() => viewAlbum(props, user.id)}>
-          <i className="fas fa-eye"></i>
+          <i className="fas fa-images"></i>
+        </button>
+        &nbsp;
+        <button className="btn btn-ligth" title="View User Post" data-toggle="tooltip" onClick={() => viewPost(props, user.id)}>
+          <i className="fas fa-portrait"></i>
         </button>
       </td>
     </tr>

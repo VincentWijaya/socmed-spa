@@ -4,7 +4,10 @@ import {
   REQUEST_USERS_FAILED,
   REQUEST_ALBUMS_LIST,
   REQUEST_ALBUMS_SUCCESS,
-  REQUEST_ALBUMS_FAILED
+  REQUEST_ALBUMS_FAILED,
+  REQUEST_POSTS_LIST,
+  REQUEST_POSTS_SUCCESS,
+  REQUEST_POSTS_FAILED,
 } from './actions';
 
 const initialState = {
@@ -12,6 +15,9 @@ const initialState = {
     isLoaded: false
   },
   albums: {
+    isLoaded: false
+  },
+  posts: {
     isLoaded: false
   }
 };
@@ -58,6 +64,48 @@ const FetchApiReducer = (state = initialState, action) => {
             isLoaded: true,
             data: {},
             errors: 'error getting albums'
+          }
+        }
+      case REQUEST_POSTS_LIST:
+        return {
+          ...state
+        }
+      case REQUEST_POSTS_SUCCESS:
+        return {
+          ...state,
+          posts: {
+            isLoaded: true,
+            data: action.payload.posts
+          }
+        }
+      case REQUEST_POSTS_FAILED:
+        return {
+          ...state,
+          posts: {
+            isLoaded: true,
+            data: {},
+            errors: 'error getting posts'
+          }
+        }
+      case REQUEST_POSTS_LIST:
+        return {
+          ...state
+        }
+      case REQUEST_POSTS_SUCCESS:
+        return {
+          ...state,
+          posts: {
+            isLoaded: true,
+            data: action.payload.posts
+          }
+        }
+      case REQUEST_POSTS_FAILED:
+        return {
+          ...state,
+          posts: {
+            isLoaded: true,
+            data: {},
+            errors: 'error getting posts'
           }
         }
     default:
