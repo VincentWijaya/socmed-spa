@@ -6,14 +6,14 @@ import {
   REQUEST_COMMENTS_FAILED
 } from './actions';
 
-export default function (action, id) {
+export default function (id) {
   return (dispatch) => {
     dispatch({
       type: REQUEST_COMMENTS_LIST
     });
 
     axios
-      .get(`https://jsonplaceholder.typicode.com/${action}/${id}/comments`)
+      .get(`https://jsonplaceholder.typicode.com/comments?postId=${id}`)
       .then(({ data }) => {
         dispatch({
           type: REQUEST_COMMENTS_SUCCESS,

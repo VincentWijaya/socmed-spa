@@ -9,7 +9,7 @@ import getUsersAction from '../store/fetchApi/getUsers';
 
 class Post extends Component {
   componentDidMount() {
-    this.props.getPosts();
+    this.props.getPosts('userId', Number(this.props.match.params.userId));
     this.props.getUsers();
   }
 
@@ -89,8 +89,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getPosts: () => {
-      dispatch(getPostsAction())
+    getPosts: (query, userId) => {
+      dispatch(getPostsAction(query, userId))
     },
     getUsers: () => {
       dispatch(getUsersAction())

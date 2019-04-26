@@ -11,8 +11,8 @@ import getUsersAction from '../store/fetchApi/getUsers';
 class PostDetail extends Component {
   componentDidMount() {
     this.props.getUsers();
-    this.props.getPosts();
-    this.props.getComments('posts', Number(this.props.match.params.postId));
+    this.props.getPosts('id', Number(this.props.match.params.postId));
+    this.props.getComments(Number(this.props.match.params.postId));
   }
 
   render() {
@@ -34,12 +34,9 @@ class PostDetail extends Component {
       const { name } = this.props.usersList.data[post.userId -1];
 
       const comment = this.props.commentsList.data.map((datum, index) => {
-        if (postId === datum.postId) {
-          return (
-            <CommentItem item={datum} key={index} {...this.props} />
-          )
-        }
-        return null
+        return (
+          <CommentItem item={datum} key={index} {...this.props} />
+        )
       });
 
       return (
@@ -96,11 +93,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getComments: (action, id) => {
-      dispatch(getCommentsAction(action, id))
+    getComments: (id) => {
+      dispatch(getCommentsAction(id))
     },
-    getPosts: () => {
-      dispatch(getPostsAction())
+    getPosts: (query, id) => {
+      dispatch(getPostsAction(query, id))
     },
     getUsers: () => {
       dispatch(getUsersAction())

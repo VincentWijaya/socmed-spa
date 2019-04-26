@@ -6,14 +6,14 @@ import {
   REQUEST_POSTS_FAILED
 } from './actions';
 
-export default function () {
+export default function (query, userId) {
   return (dispatch) => {
     dispatch({
       type: REQUEST_POSTS_LIST
     });
 
     axios
-      .get('https://jsonplaceholder.typicode.com/posts')
+      .get(`https://jsonplaceholder.typicode.com/posts?${query}=${userId}`)
       .then(({ data }) => {
         dispatch({
           type: REQUEST_POSTS_SUCCESS,
