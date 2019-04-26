@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux';
 
 import Navbar from '../components/Navbar'
+import CommentItem from '../components/CommentsItem';
 
 import getCommentsAction from '../store/fetchApi/getComments';
 import getPostsAction from '../store/fetchApi/getPosts';
@@ -31,7 +32,15 @@ class PostDetail extends Component {
       const postId = Number(this.props.match.params.postId);
       const post = this.props.postsList.data[postId - 1];
       const { name } = this.props.usersList.data[post.userId -1];
-      console.log(this.props.commentsList)
+
+      const comment = this.props.commentsList.data.map((datum, index) => {
+        if (postId === datum.postId) {
+          return (
+            <CommentItem item={datum} key={index} {...this.props} />
+          )
+        }
+        return null
+      });
 
       return (
         <section className="bg-white content-section">
@@ -57,11 +66,8 @@ class PostDetail extends Component {
                       </div>
                     </div>
 
-                    <div className="card-footer text-muted mb-4">
-                      <h6>Users: </h6>
-                      <p>Commentnya</p>
-                      <button type="button" className="btn btn-xs btn-danger"><i className="fa fa-trash fa-sm"/></button>
-                    </div>
+                    { comment }
+
                   </div>
                 </div>
               </div>
