@@ -9,18 +9,11 @@ import getUsersAction from '../store/fetchApi/getUsers';
 
 class Album extends Component {
   componentDidMount() {
-    if (!this.props.albumsList.data) {
-      this.props.getAlbums();
-    }
-
-    if (!this.props.usersList.data) {
-      this.props.getUsers();
-    }
+    this.props.getAlbums();
+    this.props.getUsers();
   }
 
   render() {
-    const { id: userId, name } = this.props.location.state;
-
     const loading = () => {
       return (
         <div>
@@ -34,6 +27,9 @@ class Album extends Component {
     };
 
     const albums = () => {
+      const indexUser = Number(this.props.match.params.userId);
+      const { id: userId, name } = this.props.usersList.data[indexUser - 1];
+
       const item = this.props.albumsList.data.map((datum, index) => {
         if (Number(userId) === datum.userId) {
           return (
