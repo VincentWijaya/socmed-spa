@@ -11,6 +11,7 @@ class PostDetail extends Component {
   componentDidMount() {
     this.props.getUsers();
     this.props.getPosts();
+    this.props.getComments('posts', Number(this.props.match.params.postId));
   }
 
   render() {
@@ -30,6 +31,7 @@ class PostDetail extends Component {
       const postId = Number(this.props.match.params.postId);
       const post = this.props.postsList.data[postId - 1];
       const { name } = this.props.usersList.data[post.userId -1];
+      console.log(this.props.commentsList)
 
       return (
         <section className="bg-white content-section">
@@ -41,8 +43,25 @@ class PostDetail extends Component {
                     <h2 className="card-title text-center display-4">{post.title}</h2>
                     <p className="card-text">{post.body}</p>
                   </div>
+
                   <div className="card-footer text-muted mb-5" v-if="isLoad">
                     Posted by {name}
+                  </div>
+
+                  <div className="my-3">
+                    <div className="form-group">
+                      <div className="col-lg-5">
+                        <textarea className="form-control" rows="2" placeholder="Comment........."></textarea>
+                        <br />
+                        <button type="button" className="btn btn-primary">Comment</button>
+                      </div>
+                    </div>
+
+                    <div className="card-footer text-muted mb-4">
+                      <h6>Users: </h6>
+                      <p>Commentnya</p>
+                      <button type="button" className="btn btn-xs btn-danger"><i className="fa fa-trash fa-sm"/></button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -55,7 +74,7 @@ class PostDetail extends Component {
     return (
       <Fragment>
         <Navbar />
-        {this.props.postsList.isLoaded ? postDetail() : loading()}
+        {this.props.commentsList.isLoaded ? postDetail() : loading()}
       </Fragment>
     )
   }
@@ -64,7 +83,8 @@ class PostDetail extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     postsList: state.fetchApi.posts,
-    usersList: state.fetchApi.users
+    usersList: state.fetchApi.users,
+    commentsList: state.fetchApi.comments,
   }
 }
 

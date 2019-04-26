@@ -26,7 +26,7 @@ class Post extends Component {
       )
     };
 
-    const albums = () => {
+    const posts = () => {
       const indexUser = Number(this.props.match.params.userId);
       const { id: userId, name } = this.props.usersList.data[indexUser - 1];
 
@@ -74,7 +74,7 @@ class Post extends Component {
     return (
       <Fragment>
         <Navbar />
-        {this.props.postsList.isLoaded ? albums() : loading()}
+        {this.props.postsList.isLoaded ? posts() : loading()}
       </Fragment>
     )
   }
