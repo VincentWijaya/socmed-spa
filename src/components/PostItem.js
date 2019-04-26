@@ -1,7 +1,7 @@
 import React from 'react';
 
 const viewPostDetail = (props, postId) => {
-  props.history.push(`/post/detail/${postId}`, props)
+  props.history.push(`/post/detail/${postId}`)
 };
 
 const PostItem = (props) => {

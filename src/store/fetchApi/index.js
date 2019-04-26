@@ -8,6 +8,9 @@ import {
   REQUEST_POSTS_LIST,
   REQUEST_POSTS_SUCCESS,
   REQUEST_POSTS_FAILED,
+  REQUEST_COMMENTS_LIST,
+  REQUEST_COMMENTS_SUCCESS,
+  REQUEST_COMMENTS_FAILED,
 } from './actions';
 
 const initialState = {
@@ -19,7 +22,10 @@ const initialState = {
   },
   posts: {
     isLoaded: false
-  }
+  },
+  comments: {
+    isLoaded: false
+  },
 };
 
 const FetchApiReducer = (state = initialState, action) => {
@@ -87,25 +93,25 @@ const FetchApiReducer = (state = initialState, action) => {
             errors: 'error getting posts'
           }
         }
-      case REQUEST_POSTS_LIST:
+      case REQUEST_COMMENTS_LIST:
         return {
           ...state
         }
-      case REQUEST_POSTS_SUCCESS:
+      case REQUEST_COMMENTS_SUCCESS:
         return {
           ...state,
-          posts: {
+          comments: {
             isLoaded: true,
-            data: action.payload.posts
+            data: action.payload.comments
           }
         }
-      case REQUEST_POSTS_FAILED:
+      case REQUEST_COMMENTS_FAILED:
         return {
           ...state,
-          posts: {
+          comments: {
             isLoaded: true,
             data: {},
-            errors: 'error getting posts'
+            errors: 'error getting comments'
           }
         }
     default:

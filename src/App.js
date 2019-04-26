@@ -22,7 +22,7 @@ function App() {
               <Route exact path="/" component={ Home } />
               <Route path="/users" component={ Users } />
               <Route path="/album/:userId" component={ UserAlbums } />
-              <Route path="/post/:userId" component={ UserPosts } />
+              <Route exact path="/post/:userId" component={ UserPosts } />
               <Route path="/post/detail/:postId" component={ PostDetail } />
               <Route component={ NotFound } />
             </Switch>
