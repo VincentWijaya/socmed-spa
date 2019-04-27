@@ -19,6 +19,7 @@ import {
   EDIT_COMMENT_SUCCESS,
   DELETE_POST_SUCCESS,
   ADDING_POST_SUCCESS,  
+  EDIT_POST_SUCCESS,
 } from './actions';
 
 const initialState = {
@@ -175,7 +176,7 @@ const FetchApiReducer = (state = initialState, action) => {
           }
         }
       case EDIT_COMMENT_SUCCESS:
-        state.comments.data[action.payload.editedComment.index] = action.payload.editedComment
+        state.comments.data[action.payload.editedComment.index] = action.payload.editedComment;
 
         return {
           ...state
@@ -205,6 +206,12 @@ const FetchApiReducer = (state = initialState, action) => {
             data: [...posts, action.payload.newPost]
           }
       }
+      case EDIT_POST_SUCCESS:
+        state.posts.data[action.payload.editedPost.index] = action.payload.editedPost;
+
+        return {
+          ...state
+        }
     default:
       return state
   }

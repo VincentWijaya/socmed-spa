@@ -7,12 +7,14 @@ import PostItem from '../components/PostItem';
 
 import getPostsAction from '../store/fetchApi/getPosts';
 import addPostAction from '../store/fetchApi/addPost';
+import editPostAction from '../store/fetchApi/editPost';
 
 class Post extends Component {
   state = {
     title: '',
     body: '',
     userId: 1,
+    postIndex: null,
     buttonName: 'Add Post'
   };
 
@@ -39,17 +41,30 @@ class Post extends Component {
       userId = this.props.location.state[0].id;
     }
 
-    this.props.addPost({
-      title: this.state.title,
-      body: this.state.body,
-      userId: userId,
-    });
-    
-    this.setState({
-      title: '',
-      body: '',
-    });
-    swal("Post Added!", "", "success");
+    if (this.state.buttonName === 'Add Post') {
+      this.props.addPost({
+        title: this.state.title,
+        body: this.state.body,
+        userId: userId,
+      });
+
+      this.setState({
+        title: '',
+        body: '',
+      });
+      swal("Post Added!", "", "success");
+    } else {
+      this.props.editPost({
+        title: this.state.title,
+        body: this.state.body,
+        userId: userId,
+        index: this.state.postIndex,
+      });
+      this.setState({
+        title: '',
+        body: '',
+      });
+    }
   }
 
   onChange = (e) => {
@@ -96,18 +111,30 @@ class Post extends Component {
         </div>
       </div>
     )
-  }
+  };
+
+  editPost = (post) => {
+    const { title, body, index } = post;
+    this.setState({
+      title,
+      body,
+      postIndex: index,
+      buttonName: 'Edit',
+    });
+  };
 
   posts() {
     const [user] = this.props.history.location.state;
     const { id: userId, name } = user;
+    const editPost = this.editPost;
 
     const item = this.props.postsList.data.map((datum, index) => {
       if (Number(userId) === datum.userId) {
         const props = {
           ...datum,
           name,
-          index
+          index,
+          editPost
         };
 
         return (
@@ -169,6 +196,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     addPost: (post) => {
       dispatch(addPostAction(post))
+    },
+    editPost: (post) => {
+      dispatch(editPostAction(post))
     },
   }
 }

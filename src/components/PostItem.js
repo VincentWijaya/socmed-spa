@@ -21,7 +21,11 @@ const deletePost = (props, postIndex) => {
         swal("Deleted!", "Post has been deleted!", "success");
       }
     });
-}
+};
+
+const editPost = (props, post) => {
+  props.item.editPost(post);
+};
 
 const PostItem = (props) => {
   const { item: post } = props;
@@ -30,8 +34,12 @@ const PostItem = (props) => {
     <tr>
       <td>{post.title}</td>
       <td>
-        <button className="btn btn-ligth" title="View Album Photos" data-toggle="tooltip" onClick={() => viewPostDetail(props, post.id)}>
+        <button className="btn btn-ligth" title="View Post Detail" data-toggle="tooltip" onClick={() => viewPostDetail(props, post.id)}>
           <i className="fas fa-eye"></i>
+        </button>
+        &nbsp;
+        <button className="btn btn-ligth" title="Edit Post" data-toggle="tooltip" onClick={() => editPost(props, post)}>
+          <i className="fas fa-edit"></i>
         </button>
         &nbsp;
         <button type="button" className="btn btn-xs btn-danger" title="Delete Post" onClick={() => deletePost(props, post.index)}>
