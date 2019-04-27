@@ -8,4 +8,4 @@ First of all, go to directory that this project is located.Then type this comman
 To run the it, simply type this in terminal: <br>
 `npm start`
 
-[Live Demo](https://stuck-overflow.skinborderevent.ml)
+[Live Demo](https://socmed-spa.firebaseapp.com)
