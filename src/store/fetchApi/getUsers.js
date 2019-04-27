@@ -6,14 +6,20 @@ import {
   REQUEST_USERS_FAILED
 } from './actions';
 
-export default function() {
+export default function(query, value) {
   return (dispatch) => {
     dispatch({
       type: REQUEST_USERS_LIST
     });
 
+    let url = 'https://jsonplaceholder.typicode.com/users';
+
+    if (query && value) {
+      url = `https://jsonplaceholder.typicode.com/users?${query}=${value}`
+    }
+
     axios
-      .get('https://jsonplaceholder.typicode.com/users')
+      .get(url)
       .then(({ data }) => {
         dispatch({
           type: REQUEST_USERS_SUCCESS,

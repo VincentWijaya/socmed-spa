@@ -9,8 +9,8 @@ import getUsersAction from '../store/fetchApi/getUsers';
 
 class Album extends Component {
   componentDidMount() {
-    this.props.getAlbums();
-    this.props.getUsers();
+    this.props.getAlbums('userId', Number(this.props.match.params.userId));
+    this.props.getUsers('id', Number(this.props.match.params.userId));
   }
 
   render() {
@@ -27,8 +27,7 @@ class Album extends Component {
     };
 
     const albums = () => {
-      const indexUser = Number(this.props.match.params.userId);
-      const { id: userId, name } = this.props.usersList.data[indexUser - 1];
+      const { id: userId, name } = this.props.usersList.data[0];
 
       const item = this.props.albumsList.data.map((datum, index) => {
         if (Number(userId) === datum.userId) {
@@ -69,7 +68,7 @@ class Album extends Component {
     return (
       <Fragment>
         <Navbar />
-        {this.props.albumsList.isLoaded ? albums() : loading()}
+        {this.props.albumsList.isLoaded && this.props.usersList.isLoaded ? albums() : loading()}
       </Fragment>
     )
   }
@@ -84,11 +83,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getAlbums: () => {
-      dispatch(getAlbumsAction())
+    getAlbums: (query, albumId) => {
+      dispatch(getAlbumsAction(query, albumId))
     },
-    getUsers: () => {
-      dispatch(getUsersAction())
+    getUsers: (query, userId) => {
+      dispatch(getUsersAction(query, userId))
     }
   }
 }

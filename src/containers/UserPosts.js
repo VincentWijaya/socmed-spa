@@ -10,7 +10,7 @@ import getUsersAction from '../store/fetchApi/getUsers';
 class Post extends Component {
   componentDidMount() {
     this.props.getPosts('userId', Number(this.props.match.params.userId));
-    this.props.getUsers();
+    this.props.getUsers('id', Number(this.props.match.params.userId));
   }
 
   render() {
@@ -27,8 +27,7 @@ class Post extends Component {
     };
 
     const posts = () => {
-      const indexUser = Number(this.props.match.params.userId);
-      const { id: userId, name } = this.props.usersList.data[indexUser - 1];
+      const { id: userId, name } = this.props.usersList.data[0];
 
       const item = this.props.postsList.data.map((datum, index) => {
         if (Number(userId) === datum.userId) {
@@ -74,7 +73,7 @@ class Post extends Component {
     return (
       <Fragment>
         <Navbar />
-        {this.props.postsList.isLoaded ? posts() : loading()}
+        {this.props.postsList.isLoaded && this.props.usersList.isLoaded ? posts() : loading()}
       </Fragment>
     )
   }

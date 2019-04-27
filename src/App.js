@@ -11,6 +11,7 @@ import Users from './containers/Users';
 import UserAlbums from './containers/UserAlbums';
 import UserPosts from './containers/UserPosts';
 import PostDetail from './containers/PostDetail';
+import AlbumPhotos from './containers/AlbumPhotos';
 
 function App() {
   return (
@@ -21,7 +22,8 @@ function App() {
             <Switch>
               <Route exact path="/" component={ Home } />
               <Route path="/users" component={ Users } />
-              <Route path="/album/:userId" component={ UserAlbums } />
+              <Route exact path="/album/:userId" component={ UserAlbums } />
+              <Route path="/album/photo/:albumId" component={ AlbumPhotos }/>
               <Route exact path="/post/:userId" component={ UserPosts } />
               <Route path="/post/detail/:postId" component={ PostDetail } />
               <Route component={ NotFound } />

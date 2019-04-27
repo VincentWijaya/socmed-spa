@@ -29,8 +29,7 @@ class PostDetail extends Component {
     };
 
     const postDetail = () => {
-      const postId = Number(this.props.match.params.postId);
-      const post = this.props.postsList.data[postId - 1];
+      const post = this.props.postsList.data[0];
       const { name } = this.props.usersList.data[post.userId -1];
 
       const comment = this.props.commentsList.data.map((datum, index) => {
@@ -77,7 +76,9 @@ class PostDetail extends Component {
     return (
       <Fragment>
         <Navbar />
-        {this.props.commentsList.isLoaded ? postDetail() : loading()}
+        {this.props.commentsList.isLoaded &&
+         this.props.usersList.isLoaded && 
+         this.props.postsList.isLoaded ? postDetail() : loading()}
       </Fragment>
     )
   }

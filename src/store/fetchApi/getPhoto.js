@@ -1,31 +1,31 @@
 import axios from 'axios';
 
 import {
-  REQUEST_ALBUMS_LIST,
-  REQUEST_ALBUMS_SUCCESS,
-  REQUEST_ALBUMS_FAILED
+  REQUEST_PHOTOS_LIST,
+  REQUEST_PHOTOS_SUCCESS,
+  REQUEST_PHOTOS_FAILED
 } from './actions';
 
 export default function (query, value) {
   return (dispatch) => {
     dispatch({
-      type: REQUEST_ALBUMS_LIST
+      type: REQUEST_PHOTOS_LIST
     });
 
     axios
-      .get(`https://jsonplaceholder.typicode.com/albums?${query}=${value}`)
+      .get(`https://jsonplaceholder.typicode.com/photos?${query}=${value}`)
       .then(({ data }) => {
         dispatch({
-          type: REQUEST_ALBUMS_SUCCESS,
+          type: REQUEST_PHOTOS_SUCCESS,
           payload: {
-            albums: data,
+            photos: data,
           },
         })
       })
       .catch(err => {
         console.log(err);
         dispatch({
-          type: REQUEST_ALBUMS_FAILED
+          type: REQUEST_PHOTOS_FAILED
         });
       });
   }

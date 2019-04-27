@@ -11,6 +11,9 @@ import {
   REQUEST_COMMENTS_LIST,
   REQUEST_COMMENTS_SUCCESS,
   REQUEST_COMMENTS_FAILED,
+  REQUEST_PHOTOS_LIST,
+  REQUEST_PHOTOS_SUCCESS,
+  REQUEST_PHOTOS_FAILED,
 } from './actions';
 
 const initialState = {
@@ -26,6 +29,9 @@ const initialState = {
   comments: {
     isLoaded: false
   },
+  photos: {
+    isLoaded: false
+  }
 };
 
 const FetchApiReducer = (state = initialState, action) => {
@@ -112,6 +118,27 @@ const FetchApiReducer = (state = initialState, action) => {
             isLoaded: true,
             data: {},
             errors: 'error getting comments'
+          }
+        }
+      case REQUEST_PHOTOS_LIST:
+        return {
+          ...state
+        }
+      case REQUEST_PHOTOS_SUCCESS:
+        return {
+          ...state,
+          photos: {
+            isLoaded: true,
+            data: action.payload.photos
+          }
+        }
+      case REQUEST_PHOTOS_FAILED:
+        return {
+          ...state,
+          photos: {
+            isLoaded: true,
+            data: {},
+            errors: 'error getting photos'
           }
         }
     default:
