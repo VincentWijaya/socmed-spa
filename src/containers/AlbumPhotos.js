@@ -3,6 +3,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux';
 
 import Navbar from '../components/Navbar'
+import PhotoItem from '../components/PhotoItem';
 
 import getPhotosAction from '../store/fetchApi/getPhoto';
 import getUsersAction from '../store/fetchApi/getUsers';
@@ -26,27 +27,21 @@ class AlbumPhoto extends Component {
       )
     };
 
-    const viewAlbumPhotos = () => {
-      console.log('delete photo');
-    }
-
     const photos = () => {
+      const photo = this.props.photosList.data.map((datum, index) => {
+        return (
+          <PhotoItem item={datum} key={index} {...this.props} />
+        )
+      });
+
       return (
         <section className="bg-white content-section">
           <div className="container">
             <div className="row mt-5 pt-3">
               <div className="col-lg-12 text-center">
-                <div className="col-lg-4 col-md-6 mb-4">
-                  <div className="card h-100">
-                    <img className="card-img-top" src={this.props.photosList.data[0].thumbnailUrl} alt="" />
-                    <div className="card-body">
-                      <h4 className="card-title">
-                        JUDUL
-                      </h4>
-                      <button className="btn btn-ligth" title="View Album Photos" data-toggle="tooltip" onClick={() => viewAlbumPhotos()}>
-                        <i className="fas fa-eye"></i>
-                      </button>
-                    </div>
+                <div className="col-lg-9 mt-5">
+                  <div className="row mt-2">
+                    { photo }
                   </div>
                 </div>
               </div>
