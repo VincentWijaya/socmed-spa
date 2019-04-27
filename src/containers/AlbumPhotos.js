@@ -6,12 +6,10 @@ import Navbar from '../components/Navbar'
 import PhotoItem from '../components/PhotoItem';
 
 import getPhotosAction from '../store/fetchApi/getPhoto';
-import getUsersAction from '../store/fetchApi/getUsers';
 
 class AlbumPhoto extends Component {
   componentDidMount() {
     this.props.getPhotos('albumId', Number(this.props.match.params.albumId));
-    this.props.getUsers('id', Number(this.props.location.state));
   }
 
   render() {
@@ -28,6 +26,8 @@ class AlbumPhoto extends Component {
     };
 
     const photos = () => {
+      const [ user, album ] = this.props.history.location.state;
+
       const photo = this.props.photosList.data.map((datum, index) => {
         return (
           <PhotoItem item={datum} key={index} {...this.props} />
@@ -38,14 +38,11 @@ class AlbumPhoto extends Component {
         <section className="bg-white content-section">
           <div className="container">
             <div className="row mt-5 pt-3">
-              <div className="col-lg-12 text-center">
+              <div className="col-lg-12">
+                <h1>{ album.title } from { user.name }</h1>
                 <div className="col-lg-9 mt-5">
                   <div className="row mt-2">
-                    <div className="container">
-                      <div className="row">
-                        {photo}
-                      </div>
-                    </div>
+                    {photo}
                   </div>
                 </div>
               </div>
@@ -58,7 +55,7 @@ class AlbumPhoto extends Component {
     return (
       <Fragment>
         <Navbar />
-        {this.props.photosList.isLoaded && this.props.usersList.isLoaded ? photos() : loading()}
+        {this.props.photosList.isLoaded ? photos() : loading()}
       </Fragment>
     )
   }
@@ -67,7 +64,6 @@ class AlbumPhoto extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     photosList: state.fetchApi.photos,
-    usersList: state.fetchApi.users
   }
 }
 
@@ -76,9 +72,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getPhotos: (query, albumId) => {
       dispatch(getPhotosAction(query, albumId))
     },
-    getUsers: (query, userId) => {
-      dispatch(getUsersAction(query, userId))
-    }
   }
 }
 

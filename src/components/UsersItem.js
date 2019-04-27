@@ -1,11 +1,11 @@
 import React from 'react';
 
 const viewAlbum = (props, userId) => {
-  props.history.push(`/album/${userId}`)
+  props.history.push(`/album/${userId}`, [props.item])
 };
 
 const viewPost = (props, userId) => {
-  props.history.push(`/post/${userId}`)
+  props.history.push(`/post/${userId}`, [props.item])
 }
 
 const UsersItem = (props) => {

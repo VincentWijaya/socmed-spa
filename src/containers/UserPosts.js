@@ -5,12 +5,10 @@ import Navbar from '../components/Navbar'
 import PostItem from '../components/PostItem';
 
 import getPostsAction from '../store/fetchApi/getPosts';
-import getUsersAction from '../store/fetchApi/getUsers';
 
 class Post extends Component {
   componentDidMount() {
     this.props.getPosts('userId', Number(this.props.match.params.userId));
-    this.props.getUsers('id', Number(this.props.match.params.userId));
   }
 
   render() {
@@ -27,7 +25,8 @@ class Post extends Component {
     };
 
     const posts = () => {
-      const { id: userId, name } = this.props.usersList.data[0];
+      const [ user ] = this.props.history.location.state;
+      const { id: userId, name } = user;
 
       const item = this.props.postsList.data.map((datum, index) => {
         if (Number(userId) === datum.userId) {
@@ -73,7 +72,7 @@ class Post extends Component {
     return (
       <Fragment>
         <Navbar />
-        {this.props.postsList.isLoaded && this.props.usersList.isLoaded ? posts() : loading()}
+        {this.props.postsList.isLoaded ? posts() : loading()}
       </Fragment>
     )
   }
@@ -82,7 +81,6 @@ class Post extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     postsList: state.fetchApi.posts,
-    usersList: state.fetchApi.users
   }
 }
 
@@ -91,9 +89,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getPosts: (query, userId) => {
       dispatch(getPostsAction(query, userId))
     },
-    getUsers: () => {
-      dispatch(getUsersAction())
-    }
   }
 }
 

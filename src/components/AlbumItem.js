@@ -1,7 +1,7 @@
 import React from 'react';
 
 const viewAlbumPhotos = (props, albumId) => {
-  props.history.push(`/album/photo/${albumId}`, props.albumsList.data[0].userId)
+  props.history.push(`/album/photo/${albumId}`, [props.location.state[0], props.item])
 };
 
 const AlbumItem = (props) => {
