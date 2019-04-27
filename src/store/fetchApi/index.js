@@ -122,7 +122,10 @@ const FetchApiReducer = (state = initialState, action) => {
         }
       case REQUEST_PHOTOS_LIST:
         return {
-          ...state
+          ...state,
+          photos: {
+            isLoaded: false,
+          }
         }
       case REQUEST_PHOTOS_SUCCESS:
         return {

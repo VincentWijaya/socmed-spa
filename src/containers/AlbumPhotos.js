@@ -41,7 +41,11 @@ class AlbumPhoto extends Component {
               <div className="col-lg-12 text-center">
                 <div className="col-lg-9 mt-5">
                   <div className="row mt-2">
-                    { photo }
+                    <div className="container">
+                      <div className="row">
+                        {photo}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
