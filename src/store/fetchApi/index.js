@@ -14,6 +14,7 @@ import {
   REQUEST_PHOTOS_LIST,
   REQUEST_PHOTOS_SUCCESS,
   REQUEST_PHOTOS_FAILED,
+  ADDING_COMMENT_SUCCESS,
 } from './actions';
 
 const initialState = {
@@ -142,6 +143,15 @@ const FetchApiReducer = (state = initialState, action) => {
             isLoaded: true,
             data: {},
             errors: 'error getting photos'
+          }
+        }
+      case ADDING_COMMENT_SUCCESS:
+        const comments = state.comments.data;
+        return {
+          ...state,
+          comments: {
+            isLoaded: true,
+            data: [...comments, action.payload.newComment]
           }
         }
     default:

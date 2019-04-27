@@ -13,6 +13,7 @@ import UserPosts from './containers/UserPosts';
 import PostDetail from './containers/PostDetail';
 import AlbumPhotos from './containers/AlbumPhotos';
 import PhotoDetail from './containers/PhotoDetail';
+import PostForm from  './containers/PostForm';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/photo/:photoId" component={ PhotoDetail } />
               <Route exact path="/post/:userId" component={ UserPosts } />
               <Route path="/post/detail/:postId" component={ PostDetail } />
+              <Route exact path="/post/add" component={ PostForm } />
               <Route component={ NotFound } />
             </Switch>
           </div>

@@ -11,68 +11,68 @@ class Post extends Component {
     this.props.getPosts('userId', Number(this.props.match.params.userId));
   }
 
-  render() {
-    const loading = () => {
-      return (
-        <div>
-          <div className="mt-5">
-            <Fragment>
-              <div className="pt-5"> <div className="loader"></div> </div>
-            </Fragment>
-          </div>
+  loading() {
+    return (
+      <div>
+        <div className="mt-5">
+          <Fragment>
+            <div className="pt-5"> <div className="loader"></div> </div>
+          </Fragment>
         </div>
-      )
-    };
+      </div>
+    )
+  };
 
-    const posts = () => {
-      const [ user ] = this.props.history.location.state;
-      const { id: userId, name } = user;
+  posts() {
+    const [user] = this.props.history.location.state;
+    const { id: userId, name } = user;
 
-      const item = this.props.postsList.data.map((datum, index) => {
-        if (Number(userId) === datum.userId) {
-          const props = {
-            ...datum,
-            name
-          };
+    const item = this.props.postsList.data.map((datum, index) => {
+      if (Number(userId) === datum.userId) {
+        const props = {
+          ...datum,
+          name
+        };
 
-          return (
-            <PostItem item={props} key={index} {...this.props} />
-          )
-        }
-        return null;
-      });
+        return (
+          <PostItem item={props} key={index} {...this.props} />
+        )
+      }
+      return null;
+    });
 
-      return (
-        <section className="bg-white content-section">
-          <div className="container">
-            <div className="row mt-5 pt-3">
-              <div className="col-lg-12 text-center">
-                <h1> Posts of {name} </h1>
-                <table className="table table-hover">
+    return (
+      <section className="bg-white content-section">
+        <div className="container">
+          <div className="row mt-5 pt-3">
+            <div className="col-lg-12 text-center">
+              <h1> Posts of {name} </h1>
+              <table className="table table-hover">
 
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
 
-                  <tbody>
-                    {item}
-                  </tbody>
+                <tbody>
+                  {item}
+                </tbody>
 
-                </table>
-              </div>
+              </table>
             </div>
           </div>
-        </section>
-      )
-    };
+        </div>
+      </section>
+    )
+  }
 
+  render() {
     return (
       <Fragment>
         <Navbar />
-        {this.props.postsList.isLoaded ? posts() : loading()}
+        {this.props.postsList.isLoaded ? this.posts() : this.loading()}
       </Fragment>
     )
   }
