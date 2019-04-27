@@ -1,24 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import './App.css';
+
+import store from './store'
+
+import Home from './containers/Home';
+import NotFound from './containers/404';
+import Users from './containers/Users';
+import UserAlbums from './containers/UserAlbums';
+import UserPosts from './containers/UserPosts';
+import PostDetail from './containers/PostDetail';
+import AlbumPhotos from './containers/AlbumPhotos';
+import PhotoDetail from './containers/PhotoDetail';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Provider store={ store }>
+        <Router>
+          <div>
+            <Switch>
+              <Route exact path="/" component={ Home } />
+              <Route path="/users" component={ Users } />
+              <Route exact path="/album/:userId" component={ UserAlbums } />
+              <Route path="/album/photo/:albumId" component={ AlbumPhotos }/>
+              <Route path="/photo/:photoId" component={ PhotoDetail } />
+              <Route exact path="/post/:userId" component={ UserPosts } />
+              <Route path="/post/detail/:postId" component={ PostDetail } />
+              <Route component={ NotFound } />
+            </Switch>
+          </div>
+        </Router>
+      </Provider>
     </div>
   );
 }
