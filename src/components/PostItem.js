@@ -4,8 +4,13 @@ import swal from 'sweetalert';
 
 import deletePostAction from '../store/fetchApi/deletePost';
 
-const viewPostDetail = (props, postId) => {
-  props.history.push(`/post/detail/${postId}`, [props.history.location.state[0], props.item])
+const viewPostDetail = (props, post) => {
+  const payloadPost = {
+    title: post.title,
+    body: post.body
+  };
+
+  props.history.push(`/post/detail/${post.id}`, [props.history.location.state[0], payloadPost])
 };
 
 const deletePost = (props, postIndex) => {
@@ -34,7 +39,7 @@ const PostItem = (props) => {
     <tr>
       <td>{post.title}</td>
       <td>
-        <button className="btn btn-ligth" title="View Post Detail" data-toggle="tooltip" onClick={() => viewPostDetail(props, post.id)}>
+        <button className="btn btn-ligth" title="View Post Detail" data-toggle="tooltip" onClick={() => viewPostDetail(props, post)}>
           <i className="fas fa-eye"></i>
         </button>
         &nbsp;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const viewDetailPhoto = (props, photoId) => {
-  props.history.push(`/photo/${photoId}`, [props.usersList.data[0], props.item]);
+  props.history.push(`/photo/${photoId}`, [props.history.location.state[0], props.item]);
 };
 
 const PhotoItem = (props) => {
