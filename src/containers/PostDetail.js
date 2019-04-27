@@ -7,10 +7,16 @@ import CommentItem from '../components/CommentsItem';
 
 import getCommentsAction from '../store/fetchApi/getComments';
 import addCommentAction from '../store/fetchApi/addComment';
+import editCommentAction from '../store/fetchApi/editComment';
 
 class PostDetail extends Component {
   state = {
-    comment: ''
+    comment: '',
+    buttonName: 'Comment',
+    postId: 'post.id',
+    name: 'Dummy User',
+    email: 'user@dummy.com',
+    commentIndex: null,
   };
 
   componentDidMount() {
@@ -36,24 +42,49 @@ class PostDetail extends Component {
   }
 
   addComment(post) {
-    this.props.addComment({
-      postId: post.id,
-      name: 'Dummy User',
-      email: 'user@dummy.com',
-      body: this.state.comment,
+    if (this.state.buttonName === 'Comment') {
+      this.props.addComment({
+        postId: post.id,
+        name: this.state.name,
+        email: this.state.email,
+        body: this.state.comment,
+      });
+      this.setState({ comment: '' });
+      swal("Comment Added!", "", "success");
+    } else {
+      this.props.editComment({
+        postId: this.state.postId,
+        name: this.state.name,
+        email: this.state.email,
+        body: this.state.comment,
+        index: this.state.commentIndex
+      })
+      this.setState({ comment: '' })
+    }
+  }
+
+  editComment = (comment) => {
+    const { body, postId, name, email, index } = comment;
+    this.setState({
+      comment: body,
+      postId,
+      name,
+      email,
+      commentIndex: index,
+      buttonName: 'Edit'
     });
-    this.setState({ comment: '' });
-    swal("Comment Added!", "", "success");
   }
 
   postDetail() {
+    const editComment = this.editComment;
     const [user, post] = this.props.history.location.state;
     const { name } = user;
 
     const comment = this.props.commentsList.data.map((datum, index) => {
       const item = {
         ...datum,
-        index
+        index,
+        editComment
       };
 
       return (
@@ -81,7 +112,7 @@ class PostDetail extends Component {
                     <div className="col-lg-5">
                       <textarea className="form-control" rows="2" placeholder="Comment........." name="comment" value={ this.state.comment } onChange={ this.onChange }></textarea>
                       <br />
-                      <button type="button" className="btn btn-primary" onClick={() => this.addComment(post)}>Comment</button>
+                      <button type="button" className="btn btn-primary" onClick={() => this.addComment(post)}>{ this.state.buttonName }</button>
                     </div>
                   </div>
 
@@ -119,6 +150,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     addComment: (body) => {
       dispatch(addCommentAction(body))
+    },
+    editComment: (comment) => {
+      dispatch(editCommentAction(comment));
     }
   }
 }

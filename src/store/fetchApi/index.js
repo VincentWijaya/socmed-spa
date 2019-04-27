@@ -16,6 +16,7 @@ import {
   REQUEST_PHOTOS_FAILED,
   ADDING_COMMENT_SUCCESS,
   DELETE_COMMENT_SUCCESS,
+  EDIT_COMMENT_SUCCESS
 } from './actions';
 
 const initialState = {
@@ -170,6 +171,12 @@ const FetchApiReducer = (state = initialState, action) => {
             isLoaded: true,
             data: newComments
           }
+        }
+      case EDIT_COMMENT_SUCCESS:
+        state.comments.data[action.payload.editedComment.index] = action.payload.editedComment
+
+        return {
+          ...state
         }
     default:
       return state
