@@ -15,6 +15,7 @@ import {
   REQUEST_PHOTOS_SUCCESS,
   REQUEST_PHOTOS_FAILED,
   ADDING_COMMENT_SUCCESS,
+  DELETE_COMMENT_SUCCESS,
 } from './actions';
 
 const initialState = {
@@ -152,6 +153,22 @@ const FetchApiReducer = (state = initialState, action) => {
           comments: {
             isLoaded: true,
             data: [...comments, action.payload.newComment]
+          }
+        }
+      case DELETE_COMMENT_SUCCESS:
+        let newComments;
+
+        if (action.payload.deletedComment === 0) {
+          newComments = state.comments.data.slice(1);
+        } else {
+          newComments = state.comments.data.splice(action.payload.deletedComment, state.comments.data.length);
+        }
+
+        return {
+          ...state,
+          comments: {
+            isLoaded: true,
+            data: newComments
           }
         }
     default:

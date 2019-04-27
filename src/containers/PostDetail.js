@@ -51,8 +51,13 @@ class PostDetail extends Component {
     const { name } = user;
 
     const comment = this.props.commentsList.data.map((datum, index) => {
+      const item = {
+        ...datum,
+        index
+      };
+
       return (
-        <CommentItem item={datum} key={index} {...this.props} />
+        <CommentItem item={item} key={index} {...this.props} />
       )
     });
 
