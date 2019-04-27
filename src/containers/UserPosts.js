@@ -31,7 +31,8 @@ class Post extends Component {
       if (Number(userId) === datum.userId) {
         const props = {
           ...datum,
-          name
+          name,
+          index
         };
 
         return (

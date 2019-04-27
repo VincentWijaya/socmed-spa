@@ -16,7 +16,8 @@ import {
   REQUEST_PHOTOS_FAILED,
   ADDING_COMMENT_SUCCESS,
   DELETE_COMMENT_SUCCESS,
-  EDIT_COMMENT_SUCCESS
+  EDIT_COMMENT_SUCCESS,
+  DELETE_POST_SUCCESS
 } from './actions';
 
 const initialState = {
@@ -178,6 +179,22 @@ const FetchApiReducer = (state = initialState, action) => {
         return {
           ...state
         }
+      case DELETE_POST_SUCCESS:
+        let newPosts;
+
+        if (action.payload.deletedPost === 0) {
+          newPosts = state.posts.data.slice(1);
+        } else {
+          newPosts = state.posts.data.splice(action.payload.deletedPost, state.posts.data.length);
+        }
+
+        return {
+          ...state,
+          posts: {
+            isLoaded: true,
+            data: newPosts
+          }
+      }
     default:
       return state
   }

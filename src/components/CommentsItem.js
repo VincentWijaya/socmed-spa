@@ -5,7 +5,6 @@ import swal from 'sweetalert';
 import deleteCommentAction from '../store/fetchApi/deleteComment';
 
 const deleteComment = (props, commentIndex) => {
-  console.log(props);
   swal({
     title: "Are you sure?",
     text: "Are you sure that you want to delete this comment?",
