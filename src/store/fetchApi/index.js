@@ -17,7 +17,8 @@ import {
   ADDING_COMMENT_SUCCESS,
   DELETE_COMMENT_SUCCESS,
   EDIT_COMMENT_SUCCESS,
-  DELETE_POST_SUCCESS
+  DELETE_POST_SUCCESS,
+  ADDING_POST_SUCCESS,  
 } from './actions';
 
 const initialState = {
@@ -193,6 +194,15 @@ const FetchApiReducer = (state = initialState, action) => {
           posts: {
             isLoaded: true,
             data: newPosts
+          }
+      }
+      case ADDING_POST_SUCCESS:
+        const posts = state.posts.data;
+        return {
+          ...state,
+          posts: {
+            isLoaded: true,
+            data: [...posts, action.payload.newPost]
           }
       }
     default:

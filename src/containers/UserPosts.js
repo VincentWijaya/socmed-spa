@@ -1,12 +1,21 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux';
+import swal from 'sweetalert';
 
 import Navbar from '../components/Navbar'
 import PostItem from '../components/PostItem';
 
 import getPostsAction from '../store/fetchApi/getPosts';
+import addPostAction from '../store/fetchApi/addPost';
 
 class Post extends Component {
+  state = {
+    title: '',
+    body: '',
+    userId: 1,
+    buttonName: 'Add Post'
+  };
+
   componentDidMount() {
     this.props.getPosts('userId', Number(this.props.match.params.userId));
   }
@@ -22,6 +31,72 @@ class Post extends Component {
       </div>
     )
   };
+
+  addPost = () => {
+    let userId = this.state.userId;
+
+    if (this.props.location.state[0]) {
+      userId = this.props.location.state[0].id;
+    }
+
+    this.props.addPost({
+      title: this.state.title,
+      body: this.state.body,
+      userId: userId,
+    });
+    
+    this.setState({
+      title: '',
+      body: '',
+    });
+    swal("Post Added!", "", "success");
+  }
+
+  onChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  postForm = () => {
+    return (
+      <div>
+        <div className="container">
+          <div className="mb-4">
+
+            <div className="row pt-3">
+              <div className="col-md-3"></div>
+              <div className="col-md-6 text-center">
+                <h2>{this.state.buttonName}</h2>
+                <hr />
+              </div>
+            </div>
+
+            <div className="d-flex justify-content-center text-center">
+              <div className="form-group col-lg-7">
+                <label>Title</label>
+                <input type="text" className="form-control" name="title" placeholder="Your post title" autoComplete="off" value={this.state.title} onChange={this.onChange} />
+              </div>
+            </div>
+
+            <div className="d-flex justify-content-center text-center">
+              <div className="form-group">
+                <label>Content</label>
+                <textarea className="form-control" rows="8" cols="80" coloumn="10" placeholder="Content" name="body" value={this.state.body} onChange={this.onChange}></textarea>
+              </div>
+            </div>
+
+            <div className="d-flex justify-content-center text-center">
+              <div className="form-group">
+                <button type="submit" className="btn btn-primary" onClick={() => this.addPost()}>{this.state.buttonName}</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   posts() {
     const [user] = this.props.history.location.state;
@@ -48,6 +123,8 @@ class Post extends Component {
           <div className="row mt-5 pt-3">
             <div className="col-lg-12 text-center">
               <h1> Posts of {name} </h1>
+              <hr/>
+              { this.postForm() }
               <table className="table table-hover">
 
                 <thead>
@@ -89,6 +166,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getPosts: (query, userId) => {
       dispatch(getPostsAction(query, userId))
+    },
+    addPost: (post) => {
+      dispatch(addPostAction(post))
     },
   }
 }
