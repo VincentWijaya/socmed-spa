@@ -1,7 +1,7 @@
 import React from 'react';
 
 const viewPostDetail = (props, postId) => {
-  props.history.push(`/post/detail/${postId}`)
+  props.history.push(`/post/detail/${postId}`, [props.usersList.data[props.item.userId - 1], props.item])
 };
 
 const PostItem = (props) => {

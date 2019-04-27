@@ -2,8 +2,6 @@ import React, { Component, Fragment } from 'react';
 
 import Navbar from '../components/Navbar';
 
-import getPhotoAction from '../store/fetchApi/getPhoto';
-
 class PhotoDetail extends Component {
   render() {
     const [ user, photo ] = this.props.history.location.state;

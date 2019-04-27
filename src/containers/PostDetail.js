@@ -5,13 +5,9 @@ import Navbar from '../components/Navbar'
 import CommentItem from '../components/CommentsItem';
 
 import getCommentsAction from '../store/fetchApi/getComments';
-import getPostsAction from '../store/fetchApi/getPosts';
-import getUsersAction from '../store/fetchApi/getUsers';
 
 class PostDetail extends Component {
   componentDidMount() {
-    this.props.getUsers();
-    this.props.getPosts('id', Number(this.props.match.params.postId));
     this.props.getComments(Number(this.props.match.params.postId));
   }
 
@@ -29,8 +25,8 @@ class PostDetail extends Component {
     };
 
     const postDetail = () => {
-      const post = this.props.postsList.data[0];
-      const { name } = this.props.usersList.data[post.userId -1];
+      const [ user, post ] = this.props.history.location.state;
+      const { name } = user;
 
       const comment = this.props.commentsList.data.map((datum, index) => {
         return (
@@ -76,9 +72,7 @@ class PostDetail extends Component {
     return (
       <Fragment>
         <Navbar />
-        {this.props.commentsList.isLoaded &&
-         this.props.usersList.isLoaded && 
-         this.props.postsList.isLoaded ? postDetail() : loading()}
+        {this.props.commentsList.isLoaded ? postDetail() : loading()}
       </Fragment>
     )
   }
@@ -86,8 +80,6 @@ class PostDetail extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    postsList: state.fetchApi.posts,
-    usersList: state.fetchApi.users,
     commentsList: state.fetchApi.comments,
   }
 }
@@ -97,12 +89,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getComments: (id) => {
       dispatch(getCommentsAction(id))
     },
-    getPosts: (query, id) => {
-      dispatch(getPostsAction(query, id))
-    },
-    getUsers: () => {
-      dispatch(getUsersAction())
-    }
   }
 }
 
